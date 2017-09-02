@@ -58,25 +58,27 @@ def train(patch_size, batch_size, epochs):
             label_batch =train_label[ind[(index*batch_size) : ((index+1)*batch_size)],:,:,:]
             generated_img = gen.predict(label_batch)
             if epoch % 10 == 0 and index == 0:
-                image = combine_imgages(label_batch)
-                image = image + 1
+                image = combine_imagas(label_batch)
+                image = image + 1.0
                 Image.fromarray(image.astype(np.uint8)).save("./result/label_" + str(epoch)+"epoch.png")
 
                 image = combine_images(img_batch)
-                image = image*128+128
+                image = image*128.0+128.0
                 Image.fromarray(image.astype(np.uint8)).save("./result/gt_" + str(epoch)+"epoch.png")
 
                 image = combine_images(generated_img)
-                image = image*128+128
+                image = image*128.0+128.0
                 Image.fromarray(image.astype(np.uint8)).save("./result/generated_" + str(epoch)+"epoch.png")
             labels = np.concatenate([label_batch,label_batch])
             imgs = np.concatenate([img_batch,generated_img])
             dis_y = np.array([1] * batch_size + [0] * batch_size)
             d_loss = np.array(dis.train_on_batch([labels,imgs],dis_y ))
-            print("disriminator_loss : " + str(d_loss) )
+            # print("disriminator_loss : " + str(d_loss) )
             gan_y = np.array([1] * batch_size)
             g_loss = gan.train_on_batch([label_batch, img_batch], [img_batch, gan_y])
-            print("gan_loss : " + str(g_loss) )
+            # print("gan_loss : " + str(g_loss) )
+        print("disriminator_loss : " + str(d_loss) )
+        print("gan_loss : " + str(g_loss) )
 
 
 

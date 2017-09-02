@@ -10,8 +10,8 @@ def load_dataset(dataDir='./dataset/base/', data_range=(1,300)):
         img_dataset = []
         label_dataset = []
         for i in range(data_range[0],data_range[1]):
-            img = Image.open(dataDir + "/cmp_b0001.jpg")
-            label = Image.open(dataDir + "/cmp_b0001.png")
+            img = Image.open(dataDir + "/cmp_b%04d.jpg"%i)
+            label = Image.open(dataDir + "/cmp_b%04d.png"%i)
             w,h = img.size
             r = 286/min(w,h)
             img = img.resize((int(r*w), int(r*h)), Image.BILINEAR)
