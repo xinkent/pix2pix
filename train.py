@@ -98,4 +98,4 @@ def combine_images(generated_images):
     return image
 
 if __name__ == '__main__':
-    train(patch_size=64, batch_size=50, epochs=10)
+    train(patch_size=64, batch_size=10, epochs=200)
