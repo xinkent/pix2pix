@@ -20,7 +20,7 @@ def load_dataset(dataDir='./dataset/base/', data_range=(1,300)):
             img = np.asarray(img).astype("f")
             img = np.asarray(img).astype("f")/128.0-1.0
 
-            label = np.asarray(label)-1
+            label = np.asarray(label)
 
             img_h,img_w,_ = img.shape
             label_h, label_w = label.shape

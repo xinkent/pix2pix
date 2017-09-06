@@ -24,8 +24,8 @@ def train(patch_size, batch_size, epochs):
 
     train_img, train_label = load_dataset(data_range=(1,300))
     train_label = train_label[:,:,:,np.newaxis]
-    test_img, test_label = load_dataset(data_range=(300,379))
-    test_label = test_label[:,:,:,np.newaxis]
+    # test_img, test_label = load_dataset(data_range=(300,379))
+    # test_label = test_label[:,:,:,np.newaxis]
 
 
     # Create optimizers
@@ -58,9 +58,10 @@ def train(patch_size, batch_size, epochs):
             label_batch =train_label[ind[(index*batch_size) : ((index+1)*batch_size)],:,:,:]
             generated_img = gen.predict(label_batch)
             if epoch % 10 == 0 and index == 0:
-                image = combine_imagas(label_batch)
-                image = image + 1.0
-                Image.fromarray(image.astype(np.uint8)).save("./result/label_" + str(epoch)+"epoch.png")
+                image = combine_images(label_batch)
+                x = np.ones((image.shape[0],image.shape[1],3)).astype(np.uint8)*255
+                x[:,:,0] = np.uint8(15*image.reshape(image.shape[0],image.shape[1]))
+                Image.fromarray(x,mode="HSV").convert('RGB').save("./result/label_" + str(epoch)+"epoch.png")
 
                 image = combine_images(img_batch)
                 image = image*128.0+128.0
@@ -81,19 +82,19 @@ def train(patch_size, batch_size, epochs):
         print("gan_loss : " + str(g_loss) )
 
 
-
 def combine_images(generated_images):
     num = generated_images.shape[0]
     width = int(math.sqrt(num))
     height = int(math.ceil(float(num)/width))
+    ch = generated_images.shape[3]
     shape = generated_images.shape[1:3]
-    image = np.zeros((height*shape[0], width*shape[1]),
+    image = np.zeros((height*shape[0], width*shape[1],ch),
                      dtype=generated_images.dtype)
     for index, img in enumerate(generated_images):
         i = int(index/width)
         j = index % width
-        image[i*shape[0]:(i+1)*shape[0], j*shape[1]:(j+1)*shape[1]] = \
-            img[:, :, 0]
+        image[i*shape[0]:(i+1)*shape[0], j*shape[1]:(j+1)*shape[1],:] = \
+            img[:, :, :]
     return image
 
 if __name__ == '__main__':
