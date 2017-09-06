@@ -18,6 +18,14 @@ def train(patch_size, batch_size, epochs):
     if not os.path.exists("./result"):
         os.mkdir("./result")
 
+    resultDir = "./result/" + "patch" + patchsize
+    if not os.path.exists(resultDir):
+        os.mkdir(resultDir)
+
+    modelDir = "./model"
+    if not os.path.exists(modelDir):
+        os.mkdir(modelDir)
+
     patch_size = patch_size
     batch_size = batch_size
     nb_epoch = epochs
@@ -34,7 +42,7 @@ def train(patch_size, batch_size, epochs):
     opt_discriminator = Adam(lr=1E-3, beta_1=0.9, beta_2=0.999, epsilon=1e-08)
 
     gan_loss = [l1_loss, 'binary_crossentropy']
-    gan_loss_weights = [10,1]
+    gan_loss_weights = [100,1]
 
     gen = generator()
 
@@ -61,15 +69,15 @@ def train(patch_size, batch_size, epochs):
                 image = combine_images(label_batch)
                 x = np.ones((image.shape[0],image.shape[1],3)).astype(np.uint8)*255
                 x[:,:,0] = np.uint8(15*image.reshape(image.shape[0],image.shape[1]))
-                Image.fromarray(x,mode="HSV").convert('RGB').save("./result/label_" + str(epoch)+"epoch.png")
+                Image.fromarray(x,mode="HSV").convert('RGB').save(resultDir + "/label_" + str(epoch)+"epoch.png")
 
                 image = combine_images(img_batch)
                 image = image*128.0+128.0
-                Image.fromarray(image.astype(np.uint8)).save("./result/gt_" + str(epoch)+"epoch.png")
+                Image.fromarray(image.astype(np.uint8)).save(resultDir + "/gt_" + str(epoch)+"epoch.png")
 
                 image = combine_images(generated_img)
                 image = image*128.0+128.0
-                Image.fromarray(image.astype(np.uint8)).save("./result/generated_" + str(epoch)+"epoch.png")
+                Image.fromarray(image.astype(np.uint8)).save(resultDir + "/generated_" + str(epoch)+"epoch.png")
             labels = np.concatenate([label_batch,label_batch])
             imgs = np.concatenate([img_batch,generated_img])
             dis_y = np.array([1] * batch_size + [0] * batch_size)
@@ -80,7 +88,7 @@ def train(patch_size, batch_size, epochs):
             # print("gan_loss : " + str(g_loss) )
         print("disriminator_loss : " + str(d_loss) )
         print("gan_loss : " + str(g_loss) )
-
+    gan.save("gan_" + "patch" + patch_size + ".h5")
 
 def combine_images(generated_images):
     num = generated_images.shape[0]
@@ -98,4 +106,4 @@ def combine_images(generated_images):
     return image
 
 if __name__ == '__main__':
-    train(patch_size=64, batch_size=10, epochs=200)
+    train(patch_size=16, batch_size=20, epochs=200)
