@@ -49,7 +49,7 @@ def discriminator(patch_size=4):
     ph = patch_size
     pw = patch_size
     gen_output = Input(shape=(h,w,3))
-    label_input = Input(shape=(h,w,1))
+    label_input = Input(shape=(h,w,12))
     list_row_idx = [(i * ph, (i + 1) * ph) for i in range(int(h / ph))]
     list_col_idx = [(i * pw, (i + 1) * pw) for i in range(int(w / pw))]
     pg = PatchGan(patch_size)
@@ -71,7 +71,7 @@ def discriminator(patch_size=4):
 def generator():
 
     # encoder
-    input1 = Input(shape=(256,256,1))
+    input1 = Input(shape=(256,256,12))
     enc_1 = Conv2D(filters=64, kernel_size=(3,3), strides=1, padding='same',input_shape=(256,256,1))(input1)
     enc_2 = CBR(128,(256,256,64))(enc_1)
     enc_3 = CBR(256,(128,128,128))(enc_2)
@@ -98,7 +98,7 @@ def generator():
 
 def GAN(generator, discriminator):
 
-    gen_input = Input(shape=(256,256,1))
+    gen_input = Input(shape=(256,256,12))
     img_input = Input(shape=(256,256,3))
 
     generated_image = generator(gen_input)
