@@ -4,7 +4,7 @@ import numpy as np
 from keras.utils import generic_utils
 from keras.optimizers import Adam, SGD
 from models import discriminator, generator, GAN
-from facade_dataset import load_dataset
+from facade_dataset2 import load_dataset
 from PIL import Image
 import math
 import os
