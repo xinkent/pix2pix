@@ -18,7 +18,7 @@ def train(patch_size, batch_size, epochs):
     if not os.path.exists("./result"):
         os.mkdir("./result")
 
-    resultDir = "./result/" + "patch" + patchsize
+    resultDir = "./result/" + "patch" + str(patch_size)
     if not os.path.exists(resultDir):
         os.mkdir(resultDir)
 
@@ -88,7 +88,7 @@ def train(patch_size, batch_size, epochs):
             # print("gan_loss : " + str(g_loss) )
         print("disriminator_loss : " + str(d_loss) )
         print("gan_loss : " + str(g_loss) )
-    gan.save("gan_" + "patch" + patch_size + ".h5")
+    gan.save("gan_" + "patch" + str(patch_size) + ".h5")
 
 def combine_images(generated_images):
     num = generated_images.shape[0]
@@ -106,4 +106,4 @@ def combine_images(generated_images):
     return image
 
 if __name__ == '__main__':
-    train(patch_size=16, batch_size=20, epochs=200)
+    train(patch_size=64, batch_size=20, epochs=200)
