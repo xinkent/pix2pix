@@ -30,9 +30,9 @@ def CBR(ch,shape,bn=True,sample='down',activation=LeakyReLU, dropout=False):
 
 def PatchGan(patch_size=4):
     p = patch_size
-    input1 = Input(shape=(p,p,1))
+    input1 = Input(shape=(p,p,12))
     input2 = Input(shape=(p,p,3))
-    x1 = CBR(32,(p,p,1))(input1)
+    x1 = CBR(32,(p,p,12))(input1)
     x2 = CBR(32,(p,p,3))(input2)
     x = concatenate([x1,x2])
     x = CBR(128,(int(p/2),int(p/2),64))(x)
