@@ -18,7 +18,7 @@ def train(patch_size, batch_size, epochs):
     if not os.path.exists("./result"):
         os.mkdir("./result")
 
-    resultDir = "./result/" + "patch" + str(patch_size)
+    resultDir = "./result/sameweight_" + "patch" + str(patch_size)
     if not os.path.exists(resultDir):
         os.mkdir(resultDir)
 
@@ -42,7 +42,7 @@ def train(patch_size, batch_size, epochs):
     opt_discriminator = Adam(lr=1E-3, beta_1=0.9, beta_2=0.999, epsilon=1e-08)
 
     gan_loss = [l1_loss, 'binary_crossentropy']
-    gan_loss_weights = [100,1]
+    gan_loss_weights = [1,1]
 
     gen = generator()
 
