@@ -33,7 +33,7 @@ def train(patch_size, batch_size, epochs):
     batch_size = batch_size
     nb_epoch = epochs
 
-    train_img, train_label = load_dataset(data_range=(1,300))
+    train_img, train_label = load_dataset(data_range=(1,370))
     # train_label = train_label[:,:,:,np.newaxis]
     # test_img, test_label = load_dataset(data_range=(300,379))
     # test_label = test_label[:,:,:,np.newaxis]

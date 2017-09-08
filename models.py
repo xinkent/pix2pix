@@ -62,7 +62,10 @@ def discriminator(patch_size=4):
             img_patch =  Lambda(lambda x: x[:,row_idx[0]:row_idx[1],col_idx[0]:col_idx[1],:])(label_input)
             x = pg([img_patch,gen_patch])
             pg_list.append(x)
-    x = concatenate(pg_list)
+    if len(pg_list) > 1:
+        x = concatenate(pg_list)
+    else:
+        x = pg_list[0]
     output = Dense(1,activation = 'sigmoid')(x)
     model = Model(inputs =[label_input,gen_output], outputs = output)
 
