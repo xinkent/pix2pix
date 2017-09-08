@@ -37,7 +37,7 @@ def PatchGan(patch_size=4):
     x = concatenate([x1,x2])
     x = CBR(128,(int(p/2),int(p/2),64))(x)
     x = CBR(256,(int(int(p/2)/2),int(int(p/2)/2),128))(x)
-    x = CBR(512,(int(int(int(p/2)/2)/2), int(int(int(p/2))/2)/2, 256))
+    x = CBR(512,(int(int(int(p/2)/2)/2), int(int(int(p/2))/2)/2, 256))(x)
     x = Flatten()(x)
     output = Dense(1,activation='sigmoid')(x)
     model = Model(inputs=[input1,input2], outputs=output)
