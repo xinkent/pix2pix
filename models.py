@@ -37,6 +37,7 @@ def PatchGan(patch_size=4):
     x = concatenate([x1,x2])
     x = CBR(128,(int(p/2),int(p/2),64))(x)
     x = CBR(256,(int(int(p/2)/2),int(int(p/2)/2),128))(x)
+    x = CBR(512,(int(int(int(p/2)/2)/2), int(int(int(p/2))/2)/2, 256))
     x = Flatten()(x)
     output = Dense(1,activation='sigmoid')(x)
     model = Model(inputs=[input1,input2], outputs=output)
@@ -85,11 +86,11 @@ def generator():
     x = CBR(512,(2,2,512),sample='up',activation='relu',dropout=True)(enc_8)
     x = CBR(512,(4,4,1024),sample='up',activation='relu',dropout=True)(concatenate([x,enc_7]))
     x = CBR(512,(8,8,1024),sample='up',activation='relu',dropout=True)(concatenate([x,enc_6]))
-    x = CBR(512,(16,16,1024),sample='up',activation='relu',dropout=True)(concatenate([x,enc_5]))
-    x = CBR(256,(32,32,1024),sample='up',activation='relu',dropout=True)(concatenate([x,enc_4]))
+    x = CBR(512,(16,16,1024),sample='up',activation='relu',dropout=False)(concatenate([x,enc_5]))
+    x = CBR(256,(32,32,1024),sample='up',activation='relu',dropout=False)(concatenate([x,enc_4]))
 
-    x = CBR(128,(64,64,512),sample='up',activation='relu',dropout=True)(concatenate([x,enc_3]))
-    x = CBR(64,(128,128,256),sample='up',activation='relu',dropout=True)(concatenate([x,enc_2]))
+    x = CBR(128,(64,64,512),sample='up',activation='relu',dropout=False)(concatenate([x,enc_3]))
+    x = CBR(64,(128,128,256),sample='up',activation='relu',dropout=False)(concatenate([x,enc_2]))
     output = Conv2D(filters=3, kernel_size=(3,3),strides=1,padding="same")(concatenate([x,enc_1]))
 
     model = Model(inputs=input1, outputs=output)
