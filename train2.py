@@ -33,9 +33,9 @@ def train(patch_size, batch_size, epochs):
     batch_size = batch_size
     nb_epoch = epochs
 
-    train_img, train_label = load_dataset(data_range=(1,370))
+    train_img, train_label = load_dataset(data_range=(1,300))
     # train_label = train_label[:,:,:,np.newaxis]
-    # test_img, test_label = load_dataset(data_range=(300,379))
+    test_img, test_label = load_dataset(data_range=(300,379))
     # test_label = test_label[:,:,:,np.newaxis]
 
 
@@ -68,22 +68,7 @@ def train(patch_size, batch_size, epochs):
             img_batch = train_img[ind[(index*batch_size) : ((index+1)*batch_size)],:,:,:]
             label_batch =train_label[ind[(index*batch_size) : ((index+1)*batch_size)],:,:,:]
             generated_img = gen.predict(label_batch)
-            if epoch % 10 == 0 and index == 0:
-                image = combine_images(label_batch)
-                x = np.ones((image.shape[0],image.shape[1],3)).astype(np.uint8)*255
-                # x[:,:,0] = np.uint8(15*image.reshape(image.shape[0],image.shape[1]))
-                x[:,:,0] = 0
-                for i in range(12):
-                    x[:,:,0] += np.uint8(15*i*image[:,:,i])
-                Image.fromarray(x,mode="HSV").convert('RGB').save(resultDir + "/label_" + str(epoch)+"epoch.png")
 
-                image = combine_images(img_batch)
-                image = image*128.0+128.0
-                Image.fromarray(image.astype(np.uint8)).save(resultDir + "/gt_" + str(epoch)+"epoch.png")
-
-                image = combine_images(generated_img)
-                image = image*128.0+128.0
-                Image.fromarray(image.astype(np.uint8)).save(resultDir + "/generated_" + str(epoch)+"epoch.png")
             labels = np.concatenate([label_batch,label_batch])
             imgs = np.concatenate([img_batch,generated_img])
             dis_y = np.array([1] * batch_size + [0] * batch_size)
@@ -92,6 +77,27 @@ def train(patch_size, batch_size, epochs):
             gan_y = np.array([1] * batch_size)
             g_loss = gan.train_on_batch([label_batch, img_batch], [img_batch, gan_y])
             # print("gan_loss : " + str(g_loss) )
+
+            if epoch % 10 == 0 and index == 0:
+                test_img_batch = test_img[ind[0:9],:,:,:]
+                test_label_batch = train_label[ind[0:9],:,:,:]
+                generated_img = gen.predict(test_label_batch)
+
+                image = combine_images(test_label_batch)
+                x = np.ones((image.shape[0],image.shape[1],3)).astype(np.uint8)*255
+                # x[:,:,0] = np.uint8(15*image.reshape(image.shape[0],image.shape[1]))
+                x[:,:,0] = 0
+                for i in range(12):
+                    x[:,:,0] += np.uint8(15*i*image[:,:,i])
+                Image.fromarray(x,mode="HSV").convert('RGB').save(resultDir + "/label_" + str(epoch)+"epoch.png")
+
+                image = combine_images(test_img_batch)
+                image = image*128.0+128.0
+                Image.fromarray(image.astype(np.uint8)).save(resultDir + "/gt_" + str(epoch)+"epoch.png")
+
+                image = combine_images(generated_img)
+                image = image*128.0+128.0
+                Image.fromarray(image.astype(np.uint8)).save(resultDir + "/generated_" + str(epoch)+"epoch.png")
         print("disriminator_loss : " + str(d_loss) )
         print("gan_loss : " + str(g_loss) )
     # gan.save("gan_" + "patch" + str(patch_size) + ".h5")
