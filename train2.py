@@ -13,7 +13,7 @@ import math
 import os
 import tensorflow as tf
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "2,3"                                                                                                     
+os.environ["CUDA_VISIBLE_DEVICES"] = "2,3"
 config = tf.ConfigProto()
 config.gpu_options.allow_growth = True
 sess = tf.Session(config = config)
@@ -89,7 +89,7 @@ def train(patch_size, batch_size, epochs):
             if epoch % 10 == 0 and index == 0:
                 test_ind = np.random.permutation(test_n)
                 test_img_batch = test_img[test_ind[0:9],:,:,:]
-                test_label_batch = train_label[test_ind[0:9],:,:,:]
+                test_label_batch = test_label[test_ind[0:9],:,:,:]
                 generated_img = gen.predict(test_label_batch)
 
                 image = combine_images(test_label_batch)
