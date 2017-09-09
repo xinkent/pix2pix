@@ -58,12 +58,13 @@ def train(patch_size, batch_size, epochs):
     dis.trainable = True
     dis.compile(loss='binary_crossentropy', optimizer=opt_discriminator)
 
-    nb_train = 299
+    train_n = train_img.shape[0]
+    test_n = test_img.shape[0]
     for epoch in range(nb_epoch):
         print("Epoch is ", epoch)
-        print("Number of batches", int(nb_train/batch_size))
-        ind = np.random.permutation(nb_train)
-        for index in range(int(nb_train/batch_size)):
+        print("Number of batches", int(train_n/batch_size))
+        ind = np.random.permutation(train_n)
+        for index in range(int(train_n/batch_size)):
             print(index)
             img_batch = train_img[ind[(index*batch_size) : ((index+1)*batch_size)],:,:,:]
             label_batch =train_label[ind[(index*batch_size) : ((index+1)*batch_size)],:,:,:]
@@ -79,6 +80,7 @@ def train(patch_size, batch_size, epochs):
             # print("gan_loss : " + str(g_loss) )
 
             if epoch % 10 == 0 and index == 0:
+                ind = np.random.permutation(test_n)
                 test_img_batch = test_img[ind[0:9],:,:,:]
                 test_label_batch = train_label[ind[0:9],:,:,:]
                 generated_img = gen.predict(test_label_batch)
