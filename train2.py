@@ -13,7 +13,7 @@ import math
 import os
 import tensorflow as tf
 
-os.environ[“CUDA_VISIBLE_DEVICES”]="2,3" #“0,1,2,3”                                                                                                        
+os.environ["CUDA_VISIBLE_DEVICES"] = "2,3"                                                                                                     
 config = tf.ConfigProto()
 config.gpu_options.allow_growth = True
 sess = tf.Session(config = config)
