@@ -60,6 +60,7 @@ def train(patch_size, batch_size, epochs):
 
     train_n = train_img.shape[0]
     test_n = test_img.shape[0]
+    print(train_n,test_n)
     for epoch in range(nb_epoch):
         print("Epoch is ", epoch)
         print("Number of batches", int(train_n/batch_size))
@@ -80,9 +81,9 @@ def train(patch_size, batch_size, epochs):
             # print("gan_loss : " + str(g_loss) )
 
             if epoch % 10 == 0 and index == 0:
-                ind = np.random.permutation(test_n)
-                test_img_batch = test_img[ind[0:9],:,:,:]
-                test_label_batch = train_label[ind[0:9],:,:,:]
+                test_ind = np.random.permutation(test_n)
+                test_img_batch = test_img[test_ind[0:9],:,:,:]
+                test_label_batch = train_label[test_ind[0:9],:,:,:]
                 generated_img = gen.predict(test_label_batch)
 
                 image = combine_images(test_label_batch)
