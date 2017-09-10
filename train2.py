@@ -6,7 +6,7 @@ import keras.backend as K
 import numpy as np
 from keras.utils import generic_utils
 from keras.optimizers import Adam, SGD
-from models import discriminator, generator, GAN
+from models import discriminator, generator, GAN,discriminator2
 from facade_dataset2 import load_dataset
 from PIL import Image
 import math
