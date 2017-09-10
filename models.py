@@ -32,8 +32,8 @@ def PatchGan(patch_size=4):
     p = patch_size
     input1 = Input(shape=(p,p,12))
     input2 = Input(shape=(p,p,3))
-    x1 = CBR(16,(p,p,12))(input1)
-    x2 = CBR(16,(p,p,3))(input2)
+    x1 = CBR(16,(p,p,12),bn=False)(input1)
+    x2 = CBR(16,(p,p,3),bn=False)(input2)
     x = concatenate([x1,x2])
     x = CBR(64,(int(p/2),int(p/2),32))(x)
     x = CBR(128,(int(int(p/2)/2),int(int(p/2)/2),64))(x)
