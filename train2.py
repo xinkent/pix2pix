@@ -86,7 +86,7 @@ def train(patch_size, batch_size, epochs):
             g_loss = gan.train_on_batch([label_batch, img_batch], [img_batch, gan_y])
             # print("gan_loss : " + str(g_loss) )
 
-            if epoch % 10 == 0 and index == 0:
+            if epoch % 50 == 0 and index == 0:
                 test_ind = np.random.permutation(test_n)
                 test_img_batch = test_img[test_ind[0:9],:,:,:]
                 test_label_batch = test_label[test_ind[0:9],:,:,:]
@@ -129,4 +129,4 @@ def combine_images(generated_images):
     return image
 
 if __name__ == '__main__':
-    train(patch_size=64, batch_size=10, epochs=1000)
+    train(patch_size=16, batch_size=10, epochs=1000)
