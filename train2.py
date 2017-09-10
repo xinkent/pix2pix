@@ -36,7 +36,7 @@ def train(patch_size, batch_size, epochs):
     if not os.path.exists(modelDir):
         os.mkdir(modelDir)
     """
-    o = open(resultDir + "/log.txt")
+    o = open(resultDir + "/log.txt","w")
 
     patch_size = patch_size
     batch_size = batch_size
@@ -110,10 +110,10 @@ def train(patch_size, batch_size, epochs):
                 image = combine_images(generated_img)
                 image = image*128.0+128.0
                 Image.fromarray(image.astype(np.uint8)).save(resultDir + "/generated_" + str(epoch)+"epoch.png")
-                o.write("epoch",epoch,"validation loss")
+                o.write("epoch"+str(epoch) + "  validation loss")
                 o.write("disriminator_loss : " + str(d_loss) )
                 o.write("gan_loss : " + str(g_loss) )
-    o.colse()
+    o.close()
     # gan.save("gan_" + "patch" + str(patch_size) + ".h5")
 
 
