@@ -22,12 +22,13 @@ K.set_session(sess)
 def train(patch_size, batch_size, epochs):
 
     def l1_loss(y_true,y_pred):
-        return K.sum(K.abs(y_pred - y_true),axis=[1,2,3])
+        return K.mean(K.abs(y_pred - y_true),axis=[1,2,3])
 
     if not os.path.exists("./result"):
         os.mkdir("./result")
 
-    resultDir = "./result/" + "patch" + str(patch_size)
+    # resultDir = "./result/" + "patch" + str(patch_size)
+    resultDir = "./result/" + "dis2"
     if not os.path.exists(resultDir):
         os.mkdir(resultDir)
 
@@ -58,7 +59,7 @@ def train(patch_size, batch_size, epochs):
 
     gen = generator()
 
-    dis = discriminator(patch_size)
+    dis = discriminator2()
     dis.trainable = False
 
     gan = GAN(gen,dis)
@@ -93,7 +94,7 @@ def train(patch_size, batch_size, epochs):
                 test_ind = np.random.permutation(test_n)
                 test_img_batch = test_img[test_ind[0:9],:,:,:]
                 test_label_batch = test_label[test_ind[0:9],:,:,:]
-                generated_img = gen.predict(test_label_batch)
+                test_generated_img = gen.predict(test_label_batch)
 
                 image = combine_images(test_label_batch)
                 x = np.ones((image.shape[0],image.shape[1],3)).astype(np.uint8)*255
@@ -101,12 +102,30 @@ def train(patch_size, batch_size, epochs):
                 x[:,:,0] = 0
                 for i in range(12):
                     x[:,:,0] += np.uint8(15*i*image[:,:,i])
-                Image.fromarray(x,mode="HSV").convert('RGB').save(resultDir + "/label_" + str(epoch)+"epoch.png")
+                Image.fromarray(x,mode="HSV").convert('RGB').save(resultDir + "/vlabel_" + str(epoch)+"epoch.png")
 
                 image = combine_images(test_img_batch)
                 image = image*128.0+128.0
+                Image.fromarray(image.astype(np.uint8)).save(resultDir + "/vgt_" + str(epoch)+"epoch.png")
+
+                image = combine_images(test_generated_img)
+                image = image*128.0+128.0
+                Image.fromarray(image.astype(np.uint8)).save(resultDir + "/vgenerated_" + str(epoch)+"epoch.png")
+
+
+                image = combine_images(label_batch)
+                x = np.ones((image.shape[0],image.shape[1],3)).astype(np.uint8)*255
+                # x[:,:,0] = np.uint8(15*image.reshape(image.shape[0],image.shape[1]))
+                x[:,:,0] = 0
+                for i in range(12):
+                    x[:,:,0] += np.uint8(15*i*image[:,:,i])
+                Image.fromarray(x,mode="HSV").convert('RGB').save(resultDir + "/label_" + str(epoch)+"epoch.png")
+
+                image = combine_images(img_batch)
+                image = image*128.0+128.0
                 Image.fromarray(image.astype(np.uint8)).save(resultDir + "/gt_" + str(epoch)+"epoch.png")
 
+                generated_img = gen.predict(label_batch)
                 image = combine_images(generated_img)
                 image = image*128.0+128.0
                 Image.fromarray(image.astype(np.uint8)).save(resultDir + "/generated_" + str(epoch)+"epoch.png")

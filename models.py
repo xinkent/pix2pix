@@ -71,6 +71,26 @@ def discriminator(patch_size=4):
     return model
 
 
+def discriminator2():
+    h = 256
+    w = 256
+    gen_output = Input(shape=(h,w,3))
+    label_input = Input(shape=(h,w,12))
+    x1 = CBR(32,(256,256,12), bn=False)(label_input)
+    x2 = CBR(32,(256,256,3),bn=False)(gen_output)
+    x = concatenate([x1,x2])
+    x = CBR(128,(128,128,64))(x)
+    x = CBR(256,(64,64,128))(x)
+    x = CBR(512,(32,32,256))(x)
+    x = Conv2D(filters=1,kernel_size=3,strides=1,padding='same')(x)
+    output = Activation('softplus')(x)
+    output = Lambda(lambda x: K.mean(x,axis=[1,2,3]))(output)
+
+    model = Model(inputs =[label_input,gen_output], outputs = output)
+
+    return model
+    
+
 def generator():
 
     # encoder
