@@ -22,7 +22,7 @@ K.set_session(sess)
 def train(patch_size, batch_size, epochs):
 
     def l1_loss(y_true,y_pred):
-        return K.mean(K.abs(y_pred - y_true),axis=[1,2,3])
+        return K.sum(K.abs(y_pred - y_true),axis=[1,2,3])
 
     if not os.path.exists("./result"):
         os.mkdir("./result")
