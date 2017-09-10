@@ -85,7 +85,6 @@ def discriminator2():
     x = Conv2D(filters=1,kernel_size=3,strides=1,padding='same')(x)
     output = Activation('softplus')(x)
     output = Lambda(lambda x: K.mean(x,axis=[1,2,3]))(output)
-
     model = Model(inputs =[label_input,gen_output], outputs = output)
 
     return model
