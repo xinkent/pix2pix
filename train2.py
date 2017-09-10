@@ -36,7 +36,7 @@ def train(patch_size, batch_size, epochs):
     if not os.path.exists(modelDir):
         os.mkdir(modelDir)
     """
-    o = open(resultDir + "/log.txt","w")
+    o = open(resultDir + "./log.txt","w")
 
     patch_size = patch_size
     batch_size = batch_size
