@@ -49,3 +49,24 @@ gan_loss : [11.460467, 0.11155643, 0.30482447]
 epoch400  validation loss
 disriminator_loss : 0.09473522007465363
 gan_loss : [10.572535, 0.099158555, 0.65667915]
+epoch425  validation loss
+disriminator_loss : 0.7267981767654419
+gan_loss : [9.1030512, 0.082811862, 0.82186538]
+epoch450  validation loss
+disriminator_loss : 0.46738201379776
+gan_loss : [10.167775, 0.091958873, 0.97188759]
+epoch475  validation loss
+disriminator_loss : 0.26486465334892273
+gan_loss : [8.9641752, 0.081705853, 0.79358947]
+epoch500  validation loss
+disriminator_loss : 0.24792028963565826
+gan_loss : [9.3504419, 0.084743209, 0.87612075]
+epoch525  validation loss
+disriminator_loss : 0.13566666841506958
+gan_loss : [8.3332653, 0.078011036, 0.53216195]
+epoch550  validation loss
+disriminator_loss : 0.6722503304481506
+gan_loss : [8.6221981, 0.078370668, 0.78513169]
+epoch575  validation loss
+disriminator_loss : 0.1673070788383484
+gan_loss : [8.8063164, 0.079911724, 0.8151437]
