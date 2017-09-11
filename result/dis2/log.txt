@@ -1,0 +1,4 @@
+start
+epoch0  validation loss
+disriminator_loss : 1.0138978958129883
+gan_loss : [61.300838, 0.61015141, 0.28569609]
