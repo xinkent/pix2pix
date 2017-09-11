@@ -50,11 +50,11 @@ def train(patch_size, batch_size, epochs):
 
 
     # Create optimizers
-    opt_gan = Adam(lr=1E-3, beta_1=0.9, beta_2=0.999, epsilon=1e-08)
+    opt_gan = Adam(lr=1E-3)
     # opt_discriminator = SGD(lr=1E-3, momentum=0.9, nesterov=True)
-    opt_discriminator = Adam(lr=1E-3, beta_1=0.9, beta_2=0.999, epsilon=1e-08)
+    opt_discriminator = Adam(lr=1E-3)
 
-    gan_loss = [l1_loss, 'binary_crossentropy']
+    gan_loss = ['mae', 'binary_crossentropy']
     gan_loss_weights = [100,1]
 
     gen = generator()
@@ -129,9 +129,9 @@ def train(patch_size, batch_size, epochs):
                 image = combine_images(generated_img)
                 image = image*128.0+128.0
                 Image.fromarray(image.astype(np.uint8)).save(resultDir + "/generated_" + str(epoch)+"epoch.png")
-                o.write("epoch"+str(epoch) + "  validation loss"+"¥n")
-                o.write("disriminator_loss : " + str(d_loss) +"¥n")
-                o.write("gan_loss : " + str(g_loss) +"¥n")
+                o.write("epoch"+str(epoch) + "  validation loss"+"\n")
+                o.write("disriminator_loss : " + str(d_loss) +"\n")
+                o.write("gan_loss : " + str(g_loss) +"\n")
                 print("epoch"+str(epoch) + "  validation loss")
                 print("disriminator_loss : " + str(d_loss))
                 print("gan_loss : " + str(g_loss))

@@ -83,12 +83,12 @@ def discriminator2():
     x = CBR(256,(64,64,128))(x)
     x = CBR(512,(32,32,256))(x)
     x = Conv2D(filters=1,kernel_size=3,strides=1,padding='same')(x)
-    output = Activation('softplus')(x)
-    output = Lambda(lambda x: K.mean(x,axis=[1,2,3]))(output)
-    model = Model(inputs =[label_input,gen_output], outputs = output)
+    x = Activation('softplus')(x)
+    output = Lambda(lambda x: K.mean(x, axis=[1,2]),output_shape=(1,))(x)
+    model = Model(inputs =[label_input,gen_output], outputs = [output])
 
     return model
-    
+
 
 def generator():
 
