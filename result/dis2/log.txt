@@ -1,1 +1,0 @@
-epoch0  validation loss¥ndisriminator_loss : 0.8014162182807922¥ngan_loss : [61.759819, 0.60726219, 1.0336003]¥n
