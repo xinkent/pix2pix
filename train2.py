@@ -32,13 +32,14 @@ def train(patch_size, batch_size, epochs):
     if not os.path.exists(resultDir):
         os.mkdir(resultDir)
 
+    o = open(resultDir + "/log","w")
+    o.write("start")
+    o.close()
     """
     modelDir = "./model"
     if not os.path.exists(modelDir):
         os.mkdir(modelDir)
     """
-    o = open(resultDir + "/log.txt","w")
-
     patch_size = patch_size
     batch_size = batch_size
     nb_epoch = epochs
@@ -72,6 +73,8 @@ def train(patch_size, batch_size, epochs):
     test_n = test_img.shape[0]
     print(train_n,test_n)
     for epoch in range(nb_epoch):
+
+        o = open(resultDir + "/log","a")
         print("Epoch is ", epoch)
         print("Number of batches", int(train_n/batch_size))
         ind = np.random.permutation(train_n)
@@ -92,8 +95,8 @@ def train(patch_size, batch_size, epochs):
 
             if epoch % 25 == 0 and index == 0:
                 test_ind = np.random.permutation(test_n)
-                test_img_batch = test_img[test_ind[0:9],:,:,:]
-                test_label_batch = test_label[test_ind[0:9],:,:,:]
+                test_img_batch = test_img[test_ind[0:batch_size],:,:,:]
+                test_label_batch = test_label[test_ind[0:batch_size],:,:,:]
                 test_generated_img = gen.predict(test_label_batch)
 
                 image = combine_images(test_label_batch)
@@ -135,7 +138,8 @@ def train(patch_size, batch_size, epochs):
                 print("epoch"+str(epoch) + "  validation loss")
                 print("disriminator_loss : " + str(d_loss))
                 print("gan_loss : " + str(g_loss))
-    o.close()
+        o.close()
+    # o.close()
     # gan.save("gan_" + "patch" + str(patch_size) + ".h5")
 
 
