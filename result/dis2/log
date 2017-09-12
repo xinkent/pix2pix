@@ -7,3 +7,9 @@ gan_loss : [27.385651, 0.24073181, 3.3124697]
 epoch50  validation loss
 disriminator_loss : 0.018699849024415016
 gan_loss : [24.672867, 0.23820469, 0.85239756]
+epoch75  validation loss
+disriminator_loss : 0.008416119031608105
+gan_loss : [21.276314, 0.20549706, 0.72660786]
+epoch100  validation loss
+disriminator_loss : 0.6733667254447937
+gan_loss : [19.281658, 0.17786421, 1.4952383]
