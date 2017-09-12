@@ -26,14 +26,14 @@ def load_dataset(dataDir='./dataset/base/', data_range=(1,300)):
                 label[:,:,j] = label_==j
 
             img_h,img_w,_ = img.shape
-            label_h, label_w, _ = label.shape
-            img_xl = np.random.randint(0,img_w-256)
-            img_yl = np.random.randint(0,img_h-256)
-            label_xl = np.random.randint(0,label_w-256)
-            label_yl = np.random.randint(0,label_h-256)
-            img = img[img_yl:img_yl+256, img_xl:img_xl+256,:]
+            # label_h, label_w, _ = label.shape
+            xl = np.random.randint(0,img_w-256)
+            yl = np.random.randint(0,img_h-256)
+            # label_xl = np.random.randint(0,label_w-256)
+            # label_yl = np.random.randint(0,label_h-256)
+            img = img[yl:yl+256, xl:xl+256,:]
             # label = label[label_yl:label_yl+256, label_xl:label_xl+256]
-            label = label[label_yl:label_yl+256, label_xl:label_xl+256,:]
+            label = label[yl:yl+256, xl:xl+256,:]
             img_dataset.append(img)
             label_dataset.append(label)
 
