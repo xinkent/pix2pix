@@ -59,6 +59,7 @@ def train(patch_size, batch_size, epochs):
     gan_loss_weights = [100,1]
 
     gen = generator()
+    gen.compile(loss = 'mae')
 
     dis = discriminator2()
     dis.trainable = False
@@ -98,6 +99,7 @@ def train(patch_size, batch_size, epochs):
                 test_img_batch = test_img[test_ind[0:batch_size],:,:,:]
                 test_label_batch = test_label[test_ind[0:batch_size],:,:,:]
                 test_generated_img = gen.predict(test_label_batch)
+                validation_gen_loss = gen.test_on_batch(test_label_batch,test_img_batch)
 
                 image = combine_images(test_label_batch)
                 x = np.ones((image.shape[0],image.shape[1],3)).astype(np.uint8)*255
@@ -129,15 +131,14 @@ def train(patch_size, batch_size, epochs):
                 Image.fromarray(image.astype(np.uint8)).save(resultDir + "/gt_" + str(epoch)+"epoch.png")
 
                 generated_img = gen.predict(label_batch)
+
                 image = combine_images(generated_img)
                 image = image*128.0+128.0
                 Image.fromarray(image.astype(np.uint8)).save(resultDir + "/generated_" + str(epoch)+"epoch.png")
-                o.write("epoch"+str(epoch) + "  validation loss"+"\n")
+                o.write("epoch"+str(epoch) + "\n")
                 o.write("disriminator_loss : " + str(d_loss) +"\n")
                 o.write("gan_loss : " + str(g_loss) +"\n")
-                print("epoch"+str(epoch) + "  validation loss")
-                print("disriminator_loss : " + str(d_loss))
-                print("gan_loss : " + str(g_loss))
+                o.write("validate_genn_loss : " + str(validation_gen_loss) + "\n")
         o.close()
     # o.close()
     # gan.save("gan_" + "patch" + str(patch_size) + ".h5")
