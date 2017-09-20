@@ -10,3 +10,83 @@ epoch50
 disriminator_loss : 0.0031153825111687183
 gan_loss : [21.498241, 0.20975073, 0.5231685]
 validate_genn_loss : 0.357619
+epoch75
+disriminator_loss : 0.0005461617838591337
+gan_loss : [19.087261, 0.18279713, 0.807549]
+validate_genn_loss : 0.343734
+epoch100
+disriminator_loss : 0.00047370733227580786
+gan_loss : [19.756815, 0.1845721, 1.2996042]
+validate_genn_loss : 0.337089
+epoch125
+disriminator_loss : 0.4036882817745209
+gan_loss : [18.303188, 0.17179815, 1.1233733]
+validate_genn_loss : 0.351682
+epoch150
+disriminator_loss : 0.0034796821419149637
+gan_loss : [16.537107, 0.15273093, 1.2640148]
+validate_genn_loss : 0.336268
+epoch175
+disriminator_loss : 2.3845009803771973
+gan_loss : [14.836186, 0.14051592, 0.78459418]
+validate_genn_loss : 0.320313
+epoch200
+disriminator_loss : 0.7504487633705139
+gan_loss : [13.287239, 0.1221939, 1.0678489]
+validate_genn_loss : 0.333265
+epoch225
+disriminator_loss : 0.8139374256134033
+gan_loss : [12.496259, 0.11477393, 1.0188657]
+validate_genn_loss : 0.345896
+epoch250
+disriminator_loss : 0.7444552779197693
+gan_loss : [12.714293, 0.11652105, 1.0621881]
+validate_genn_loss : 0.36533
+epoch275
+disriminator_loss : 0.8135039806365967
+gan_loss : [11.259874, 0.10182248, 1.0776259]
+validate_genn_loss : 0.324248
+epoch300
+disriminator_loss : 0.7209327220916748
+gan_loss : [9.9500589, 0.091510087, 0.79905057]
+validate_genn_loss : 0.352156
+epoch325
+disriminator_loss : 0.6534999012947083
+gan_loss : [10.50791, 0.097847298, 0.72317994]
+validate_genn_loss : 0.340675
+epoch350
+disriminator_loss : 0.4718674421310425
+gan_loss : [9.6485176, 0.085005388, 1.1479785]
+validate_genn_loss : 0.365204
+epoch375
+disriminator_loss : 0.6921889185905457
+gan_loss : [10.555748, 0.096864402, 0.8693071]
+validate_genn_loss : 0.349619
+epoch400
+disriminator_loss : 0.5290452837944031
+gan_loss : [9.3907251, 0.085460857, 0.84463954]
+validate_genn_loss : 0.362371
+epoch425
+disriminator_loss : 0.7027878761291504
+gan_loss : [8.3960953, 0.076791242, 0.71697062]
+validate_genn_loss : 0.336202
+epoch450
+disriminator_loss : 0.3035276532173157
+gan_loss : [8.3143034, 0.076724306, 0.64187253]
+validate_genn_loss : 0.348708
+epoch475
+disriminator_loss : 0.7195589542388916
+gan_loss : [8.1886759, 0.074900351, 0.69864076]
+validate_genn_loss : 0.348035
+epoch500
+disriminator_loss : 0.7127777934074402
+gan_loss : [7.6304889, 0.068147957, 0.8156935]
+validate_genn_loss : 0.358598
+epoch525
+disriminator_loss : 0.3121541738510132
+gan_loss : [7.3625689, 0.06650313, 0.71225584]
+validate_genn_loss : 0.34583
+epoch550
+disriminator_loss : 0.6877674460411072
+gan_loss : [6.4550333, 0.057415031, 0.71353024]
+validate_genn_loss : 0.367942

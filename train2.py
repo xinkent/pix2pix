@@ -54,12 +54,13 @@ def train(patch_size, batch_size, epochs):
     opt_gan = Adam(lr=1E-3)
     # opt_discriminator = SGD(lr=1E-3, momentum=0.9, nesterov=True)
     opt_discriminator = Adam(lr=1E-3)
+    opt_generator = Adam(lr=1E-3)
 
     gan_loss = ['mae', 'binary_crossentropy']
     gan_loss_weights = [100,1]
 
     gen = generator()
-    gen.compile(loss = 'mae')
+    gen.compile(loss = 'mae', optimizer=opt_generator)
 
     dis = discriminator2()
     dis.trainable = False
