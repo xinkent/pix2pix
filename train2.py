@@ -28,7 +28,7 @@ def train(patch_size, batch_size, epochs):
         os.mkdir("./result")
 
     # resultDir = "./result/" + "patch" + str(patch_size)
-    resultDir = "./result/" + "dis2"
+    resultDir = "./result/" + "dis3"
     if not os.path.exists(resultDir):
         os.mkdir(resultDir)
 
@@ -62,7 +62,8 @@ def train(patch_size, batch_size, epochs):
     gen = generator()
     gen.compile(loss = 'mae', optimizer=opt_generator)
 
-    dis = discriminator2()
+    # dis = discriminator2()
+    dis = discriminatore(patch_size)
     dis.trainable = False
 
     gan = GAN(gen,dis)

@@ -3,7 +3,7 @@ import keras
 from keras import backend as K
 from keras.models import Sequential, Model
 from keras.layers import Dense,Reshape, Input,merge
-from keras.layers.merge import concatenate
+from keras.layers.merge import concatenate, average
 from keras.layers.core import Activation, Dropout, Flatten,Lambda
 from keras.layers.normalization import BatchNormalization
 from keras.layers.convolutional import UpSampling2D,Conv2D, MaxPooling2D,Conv2DTranspose
@@ -88,6 +88,33 @@ def discriminator2():
     model = Model(inputs =[label_input,gen_output], outputs = [output])
 
     return model
+
+def discriminator3(patch_size=64):
+    h = 256
+    w = 256
+    ph = patch_size
+    pw = patch_size
+    gen_output = Input(shape=(h,w,3))
+    label_input = Input(shape=(h,w,12))
+    list_row_idx = [(i * ph, (i + 1) * ph) for i in range(int(h / ph))]
+    list_col_idx = [(i * pw, (i + 1) * pw) for i in range(int(w / pw))]
+    pg = PatchGan(patch_size)
+    pg_list = []
+
+    for row_idx in list_row_idx:
+        for col_idx in list_col_idx:
+            gen_patch =  Lambda(lambda x: x[:,row_idx[0]:row_idx[1],col_idx[0]:col_idx[1],:])(gen_output)
+            img_patch =  Lambda(lambda x: x[:,row_idx[0]:row_idx[1],col_idx[0]:col_idx[1],:])(label_input)
+            x = pg([img_patch,gen_patch])
+            pg_list.append(x)
+    if len(pg_list) > 1:
+        output = average(pg_list)
+    else:
+        output = pg_list[0]
+    model = Model(inputs =[label_input,gen_output], outputs = output)
+
+    return model
+
 
 
 def generator():
