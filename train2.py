@@ -101,7 +101,7 @@ def train(patch_size, batch_size, epochs):
                 test_img_batch = test_img[test_ind[0:batch_size],:,:,:]
                 test_label_batch = test_label[test_ind[0:batch_size],:,:,:]
                 test_generated_img = gen.predict(test_label_batch)
-                validation_gen_loss = gen.test_on_batch(test_label_batch,test_img_batch)
+                validation_gen_loss = gan.test_on_batch([test_label_batch,test_img_batch],[test_img_batch, gan_y])
 
                 image = combine_images(test_label_batch)
                 x = np.ones((image.shape[0],image.shape[1],3)).astype(np.uint8)*255
