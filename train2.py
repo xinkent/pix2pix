@@ -63,7 +63,7 @@ def train(patch_size, batch_size, epochs):
     gen.compile(loss = 'mae', optimizer=opt_generator)
 
     # dis = discriminator2()
-    dis = discriminatore(patch_size)
+    dis = discriminator3(patch_size)
     dis.trainable = False
 
     gan = GAN(gen,dis)
