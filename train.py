@@ -71,8 +71,8 @@ def train():
     gen = generator()
     gen.compile(loss = 'mae', optimizer=opt_generator)
 
-    dis = discriminator2()
-    # dis = discriminator3(patch_size)
+    # dis = discriminator2()
+    dis = discriminator3(patch_size)
     dis.trainable = False
 
     gan = GAN(gen,dis)
