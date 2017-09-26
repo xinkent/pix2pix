@@ -149,7 +149,7 @@ def train():
                 image = combine_images(generated_img)
                 image = image*128.0+128.0
                 Image.fromarray(image.astype(np.uint8)).save(resultDir + "/generated_" + str(epoch)+"epoch.png")
-                o.write(str(epoch) + "," + str(d_loss), "," + str(g_loss[0]) + "," + str(g_loss[1]) + "," + str(validate_gan_loss[0]) +"," + str(validate_gan_loss[1]) + "\n")
+                o.write(str(epoch) + "," + str(d_loss), "," + str(g_loss[0]) + "," + str(g_loss[1]) + "," + str(validation_gan_loss[0]) +"," + str(validate_gan_loss[1]) + "\n")
         o.close()
     # o.close()
     # gan.save("gan_" + "patch" + str(patch_size) + ".h5")
