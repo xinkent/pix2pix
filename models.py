@@ -145,14 +145,12 @@ def generator():
     return(model)
 
 
-def GAN(generator, discriminator):
+
+def GAN(generator, discriminator,  patch_size=4):
 
     gen_input = Input(shape=(256,256,12))
-    img_input = Input(shape=(256,256,3))
-
     generated_image = generator(gen_input)
-    DCGAN_output = discriminator([gen_input,img_input])
-
-    DCGAN = Model(inputs=[gen_input,img_input],outputs=[generated_image, DCGAN_output],name="DCGAN")
+    DCGAN_output = discriminator([gen_input,generated_image])
+    DCGAN = Model(inputs=[gen_input],outputs=[generated_image, DCGAN_output],name="DCGAN")
 
     return DCGAN
