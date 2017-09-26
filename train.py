@@ -52,7 +52,7 @@ def train():
     lmd = args.lmd
 
     o = open(resultDir + "/log","w")
-    o.write("batch:" + str(batch_size) + "  lambda:" + str(lambda) + "\n")
+    o.write("batch:" + str(batch_size) + "  lambda:" + str(lmd) + "\n")
     o.write("dis_loss,gan_mae,gan_entropy,vgan_mae,vgan_entropy" + "\n")
     o.close()
 
