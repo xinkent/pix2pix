@@ -164,6 +164,7 @@ def train():
             label_batch =test_label[test_ind[0:9],:,:,:]
             image = combine_images(test_label_batch)
             generated_img = gen.predict(test_label_batch)
+
             x = np.ones((image.shape[0],image.shape[1],3)).astype(np.uint8)*255
             # x[:,:,0] = np.uint8(15*image.reshape(image.shape[0],image.shape[1]))
             x[:,:,0] = 0
@@ -171,11 +172,11 @@ def train():
                 x[:,:,0] += np.uint8(15*i*image[:,:,i])
             Image.fromarray(x,mode="HSV").convert('RGB').save(resultDir + "/vlabel_" + str(epoch)+"epoch.png")
 
-            image = combine_images(test_img_batch)
+            image = combine_images(img_batch)
             image = image*128.0+128.0
             Image.fromarray(image.astype(np.uint8)).save(resultDir + "/vgt_" + str(epoch)+"epoch.png")
 
-            image = combine_images(test_generated_img)
+            image = combine_images(generated_img)
             image = image*128.0+128.0
             Image.fromarray(image.astype(np.uint8)).save(resultDir + "/vgenerated_" + str(epoch)+"epoch.png")
 
