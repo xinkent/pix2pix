@@ -26,7 +26,7 @@ def train():
     parser.add_argument('--patchsize', '-p', type=int, default = 64)
     parser.add_argument('--epoch', '-e', type=int, default = 500)
     parser.add_argument('--out', '-o',default = 'result')
-    parser.add_argument('--lmd', '-l',type=int, default = 100)
+    parser.add_argument('--lmd', '-l',type=float, default = 100)
     args = parser.parse_args()
 
     def l1_loss(y_true,y_pred):
@@ -149,6 +149,7 @@ def train():
                 image = combine_images(generated_img)
                 image = image*128.0+128.0
                 Image.fromarray(image.astype(np.uint8)).save(resultDir + "/generated_" + str(epoch)+"epoch.png")
+
                 o.write(str(epoch) + "," + str(d_loss) + "," + str(g_loss[1]) + "," + str(g_loss[2]) + "," + str(validation_gan_loss[1]) +"," + str(validation_gan_loss[2]) + "\n")
                 gan.save_weights(modelDir + 'gan_weights' + "_lambda" + str(lmd) + "_epoch"+ str(epoch) + '.h5')
         o.close()
