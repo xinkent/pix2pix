@@ -89,7 +89,7 @@ def train():
     print(train_n,test_n)
     for epoch in range(nb_epoch):
 
-        o = open(resultDir + "/log","a")
+        o = open(resultDir + "/log.txt","a")
         print("Epoch is ", epoch)
         print("Number of batches", int(train_n/batch_size))
         ind = np.random.permutation(train_n)
@@ -125,10 +125,10 @@ def train():
             test_labels = np.concatenate([test_label_batch,test_label_batch])
             test_imgs = np.concatenate([test_img_batch,test_generated_img])
             dis_y = np.array([1] * batch_size + [0] * batch_size)
-            d_loss = np.array(dis.train_on_batch([test_labels,test_imgs],dis_y ))
+            d_loss = np.array(dis.test_on_batch([test_labels,test_imgs],dis_y ))
             test_dis_loss_list.append(d_loss)
             gan_y = np.array([1] * batch_size)
-            g_loss = np.array(gan.train_on_batch([test_label_batch], [test_img_batch, gan_y]))
+            g_loss = np.array(gan.test_on_batch([test_label_batch], [test_img_batch, gan_y]))
             test_gan_loss_list.append(g_loss)
         test_dis_loss = np.mean(np.array(test_dis_loss_list))
         test_gan_loss = np.mean(np.array(test_gan_loss_list), axis=1)
@@ -141,6 +141,7 @@ def train():
             img_batch = train_img[ind[0:9],:,:,:]
             label_batch =train_label[ind[0:9],:,:,:]
             image = combine_images(label_batch)
+            generated_img = gen.predict(label_batch)
             x = np.ones((image.shape[0],image.shape[1],3)).astype(np.uint8)*255
             # x[:,:,0] = np.uint8(15*image.reshape(image.shape[0],image.shape[1]))
             x[:,:,0] = 0
@@ -152,7 +153,7 @@ def train():
             image = image*128.0+128.0
             Image.fromarray(image.astype(np.uint8)).save(resultDir + "/gt_" + str(epoch)+"epoch.png")
 
-            generated_img = gen.predict(label_batch)
+
 
             image = combine_images(generated_img)
             image = image*128.0+128.0
@@ -162,6 +163,7 @@ def train():
             img_batch = test_img[test_ind[0:9],:,:,:]
             label_batch =test_label[test_ind[0:9],:,:,:]
             image = combine_images(test_label_batch)
+            generated_img = gen.predict(test_label_batch)
             x = np.ones((image.shape[0],image.shape[1],3)).astype(np.uint8)*255
             # x[:,:,0] = np.uint8(15*image.reshape(image.shape[0],image.shape[1]))
             x[:,:,0] = 0
