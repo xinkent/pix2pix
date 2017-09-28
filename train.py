@@ -93,6 +93,7 @@ def train():
         print("Epoch is ", epoch)
         print("Number of batches", int(train_n/batch_size))
         ind = np.random.permutation(train_n)
+        test_ind = np.random.permutation(test_n)
         dis_loss_list = []
         gan_loss_list = []
         test_dis_loss_list = []
@@ -100,7 +101,6 @@ def train():
 
         # training
         for index in range(int(train_n/batch_size)):
-            print(index)
             img_batch = train_img[ind[(index*batch_size) : ((index+1)*batch_size)],:,:,:]
             label_batch =train_label[ind[(index*batch_size) : ((index+1)*batch_size)],:,:,:]
             generated_img = gen.predict(label_batch)
@@ -117,10 +117,10 @@ def train():
         gan_loss = np.mean(np.array(gan_loss_list), axis=1)
 
         # validation
-        for index in range(int(test_n/batch_size))
+        for index in range(int(test_n/batch_size)):
             test_ind = np.random.permutation(test_n)
-            test_img_batch = test_img[ind[(index*batch_size) : ((index+1)*batch_size)],:,:,:]
-            test_label_batch = test_label[ind[(index*batch_size) : ((index+1)*batch_size)],:,:,:]
+            test_img_batch = test_img[test_ind[(index*batch_size) : ((index+1)*batch_size)],:,:,:]
+            test_label_batch = test_label[test_ind[(index*batch_size) : ((index+1)*batch_size)],:,:,:]
             test_generated_img = gen.predict(test_label_batch)
             test_labels = np.concatenate([test_label_batch,test_label_batch])
             test_imgs = np.concatenate([test_img_batch,test_generated_img])
@@ -159,8 +159,8 @@ def train():
             Image.fromarray(image.astype(np.uint8)).save(resultDir + "/generated_" + str(epoch)+"epoch.png")
 
 
-            img_batch = test_img[ind[0:9],:,:,:]
-            label_batch =test_label[ind[0:9],:,:,:]
+            img_batch = test_img[test_ind[0:9],:,:,:]
+            label_batch =test_label[test_ind[0:9],:,:,:]
             image = combine_images(test_label_batch)
             x = np.ones((image.shape[0],image.shape[1],3)).astype(np.uint8)*255
             # x[:,:,0] = np.uint8(15*image.reshape(image.shape[0],image.shape[1]))
