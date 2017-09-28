@@ -1,5 +1,5 @@
 """
-input を12チャンネルにしたversion
+
 """
 import keras
 import keras.backend as K
@@ -41,11 +41,11 @@ def train():
         os.mkdir(resultDir)
 
 
-    """
-    modelDir = "./model"
+
+    modelDir = resultDir + "/model/"
     if not os.path.exists(modelDir):
         os.mkdir(modelDir)
-    """
+
     patch_size = args.patchsize
     batch_size = args.batchsize
     nb_epoch = args.epoch
@@ -53,7 +53,7 @@ def train():
 
     o = open(resultDir + "/log","w")
     o.write("batch:" + str(batch_size) + "  lambda:" + str(lmd) + "\n")
-    o.write("dis_loss,gan_mae,gan_entropy,vgan_mae,vgan_entropy" + "\n")
+    o.write("epoch,dis_loss,gan_mae,gan_entropy,vgan_mae,vgan_entropy" + "\n")
     o.close()
 
     train_img, train_label = load_dataset(data_range=(1,300))
@@ -108,7 +108,7 @@ def train():
             g_loss = gan.train_on_batch([label_batch], [img_batch, gan_y])
             # print("gan_loss : " + str(g_loss) )
 
-            if epoch % 25 == 0 and index == 0:
+            if epoch % 50 == 0 and index == 0:
                 test_ind = np.random.permutation(test_n)
                 test_img_batch = test_img[test_ind[0:batch_size],:,:,:]
                 test_label_batch = test_label[test_ind[0:batch_size],:,:,:]
@@ -149,9 +149,10 @@ def train():
                 image = combine_images(generated_img)
                 image = image*128.0+128.0
                 Image.fromarray(image.astype(np.uint8)).save(resultDir + "/generated_" + str(epoch)+"epoch.png")
-                o.write(str(epoch) + "," + str(d_loss), "," + str(g_loss[0]) + "," + str(g_loss[1]) + "," + str(validation_gan_loss[0]) +"," + str(validate_gan_loss[1]) + "\n")
+                o.write(str(epoch) + "," + str(d_loss) + "," + str(g_loss[1]) + "," + str(g_loss[2]) + "," + str(validation_gan_loss[1]) +"," + str(validate_gan_loss[2]) + "\n")
+                gan.save_weights(modelDir + 'gan_weights' + "_lambda" + str(lmd) + "_epoch"+ str(epoch) + '.h5')
         o.close()
-    # o.close()
+    o.close()
     # gan.save("gan_" + "patch" + str(patch_size) + ".h5")
 
 
