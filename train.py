@@ -51,7 +51,7 @@ def train():
     nb_epoch = args.epoch
     lmd = args.lmd
 
-    o = open(resultDir + "/log","w")
+    o = open(resultDir + "/log.txt","w")
     o.write("batch:" + str(batch_size) + "  lambda:" + str(lmd) + "\n")
     o.write("epoch,dis_loss,gan_mae,gan_entropy,vgan_mae,vgan_entropy" + "\n")
     o.close()
@@ -130,8 +130,8 @@ def train():
             gan_y = np.array([1] * batch_size)
             g_loss = np.array(gan.train_on_batch([test_label_batch], [test_img_batch, gan_y]))
             test_gan_loss_list.append(g_loss)
-        test_dis_loss = np.mean(np.array(dis_loss_list))
-        test_gan_loss = np.mean(np.array(gan_loss_list), axis=1)
+        test_dis_loss = np.mean(np.array(test_dis_loss_list))
+        test_gan_loss = np.mean(np.array(test_gan_loss_list), axis=1)
 
         o.write(str(epoch) + "," + str(dis_loss) + "," + str(gan_loss[1]) + "," + str(gan_loss[2]) + "," + str(test_gan_loss[1]) +"," + str(test_gan_loss[2]) + "\n")
 
