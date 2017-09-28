@@ -162,8 +162,8 @@ def train():
 
             img_batch = test_img[test_ind[0:9],:,:,:]
             label_batch =test_label[test_ind[0:9],:,:,:]
-            image = combine_images(test_label_batch)
-            generated_img = gen.predict(test_label_batch)
+            image = combine_images(label_batch)
+            generated_img = gen.predict(label_batch)
 
             x = np.ones((image.shape[0],image.shape[1],3)).astype(np.uint8)*255
             # x[:,:,0] = np.uint8(15*image.reshape(image.shape[0],image.shape[1]))
