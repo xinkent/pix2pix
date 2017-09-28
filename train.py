@@ -56,9 +56,9 @@ def train():
     o.write("epoch,dis_loss,gan_mae,gan_entropy,vgan_mae,vgan_entropy" + "\n")
     o.close()
 
-    train_img, train_label = load_dataset(data_range=(1,300))
+    train_img, train_label = load_dataset(data_range=(1,340))
     # train_label = train_label[:,:,:,np.newaxis]
-    test_img, test_label = load_dataset(data_range=(300,379))
+    test_img, test_label = load_dataset(data_range=(340,379))
     # test_label = test_label[:,:,:,np.newaxis]
 
 
