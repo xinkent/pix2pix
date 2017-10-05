@@ -6,6 +6,7 @@ import keras.backend as K
 import numpy as np
 from keras.utils import generic_utils
 from keras.optimizers import Adam, SGD
+from keras.utils.np_utils import to_categorical
 from models import discriminator, generator, GAN,discriminator2,discriminator3
 from facade_dataset2 import load_dataset
 from PIL import Image
@@ -29,8 +30,8 @@ def train():
     parser.add_argument('--lmd', '-l',type=float, default = 100)
     args = parser.parse_args()
 
-    def l1_loss(y_true,y_pred):
-        return K.mean(K.abs(y_pred - y_true),axis=[1,2,3])
+    def dis_entropy(y_true, y_pred):
+        return -K.log(K.abs((y_pred - y_true)))
 
     if not os.path.exists("./result"):
         os.mkdir("./result")
@@ -68,7 +69,7 @@ def train():
     opt_discriminator = Adam(lr=1E-3)
     opt_generator = Adam(lr=1E-3)
 
-    gan_loss = ['mae', 'binary_crossentropy']
+    gan_loss = ['mae', 'dis_entropy']
     gan_loss_weights = [lmd,1]
 
     gen = generator()
@@ -82,7 +83,7 @@ def train():
     gan.compile(loss = gan_loss, loss_weights = gan_loss_weights,optimizer = opt_gan)
 
     dis.trainable = True
-    dis.compile(loss='binary_crossentropy', optimizer=opt_discriminator)
+    dis.compile(loss='dis_entropy', optimizer=opt_discriminator)
 
     train_n = train_img.shape[0]
     test_n = test_img.shape[0]
