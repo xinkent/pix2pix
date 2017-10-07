@@ -69,7 +69,7 @@ def train():
     opt_discriminator = Adam(lr=1E-3)
     opt_generator = Adam(lr=1E-3)
 
-    gan_loss = ['mae', 'dis_entropy']
+    gan_loss = ['mae', dis_entropy]
     gan_loss_weights = [lmd,1]
 
     gen = generator()
@@ -83,7 +83,7 @@ def train():
     gan.compile(loss = gan_loss, loss_weights = gan_loss_weights,optimizer = opt_gan)
 
     dis.trainable = True
-    dis.compile(loss='dis_entropy', optimizer=opt_discriminator)
+    dis.compile(loss=dis_entropy, optimizer=opt_discriminator)
 
     train_n = train_img.shape[0]
     test_n = test_img.shape[0]
@@ -108,12 +108,20 @@ def train():
 
             y_real = np.array([1] * batch_size)
             y_fake = np.array([0] * batch_size)
-            d_real_loss = np.array(dis.train_on_batch([label_batch,img_batch],y_real))
-            d_fake_loss =np.array(dis.train_on_batch([label_batch,generated_img],y_fake))
-            d_loss = d_real_loss + d_fake_loss
+            while(True):
+                d_real_loss = np.array(dis.train_on_batch([label_batch,img_batch],y_real))
+                d_fake_loss =np.array(dis.train_on_batch([label_batch,generated_img],y_fake))
+                d_loss = d_real_loss + d_fake_loss
+                print("d_loss : " + str(d_loss))
+                if(d_loss < 0.7):
+                    break
             dis_loss_list.append(d_loss)
-            gan_y = np.array([1] * batch_size)
-            g_loss = np.array(gan.train_on_batch([label_batch], [img_batch, gan_y]))
+            while(True):
+                gan_y = np.array([1] * batch_size)
+                g_loss = np.array(gan.train_on_batch([label_batch], [img_batch, gan_y]))
+                print("g_loss : " + str(g_loss))
+                if(g_loss < 0.7):
+                    break
             gan_loss_list.append(g_loss)
         dis_loss = np.mean(np.array(dis_loss_list))
         gan_loss = np.mean(np.array(gan_loss_list), axis=1)
