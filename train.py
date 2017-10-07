@@ -120,11 +120,13 @@ def train():
                 gan_y = np.array([1] * batch_size)
                 g_loss = np.array(gan.train_on_batch([label_batch], [img_batch, gan_y]))
                 print("g_loss : " + str(g_loss))
-                if(g_loss < 0.7):
+                if(g_loss[2] < 0.7):
                     break
             gan_loss_list.append(g_loss)
+        print(gan_loss_list)
         dis_loss = np.mean(np.array(dis_loss_list))
-        gan_loss = np.mean(np.array(gan_loss_list), axis=1)
+        gan_loss = np.mean(np.array(gan_loss_list), axis=0)
+        print(gan_loss)
 
         # validation
         for index in range(int(test_n/batch_size)):
@@ -141,13 +143,13 @@ def train():
             g_loss = np.array(gan.test_on_batch([test_label_batch], [test_img_batch, gan_y]))
             test_gan_loss_list.append(g_loss)
         test_dis_loss = np.mean(np.array(test_dis_loss_list))
-        test_gan_loss = np.mean(np.array(test_gan_loss_list), axis=1)
+        test_gan_loss = np.mean(np.array(test_gan_loss_list), axis=0)
 
         o.write(str(epoch) + "," + str(dis_loss) + "," + str(gan_loss[1]) + "," + str(gan_loss[2]) + "," + str(test_gan_loss[1]) +"," + str(test_gan_loss[2]) + "\n")
 
 
         # visualize
-        if epoch % 50 == 0 :
+        if epoch % 25 == 0 :
             img_batch = train_img[ind[0:9],:,:,:]
             label_batch =train_label[ind[0:9],:,:,:]
             image = combine_images(label_batch)
