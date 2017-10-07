@@ -69,7 +69,7 @@ def train():
     opt_discriminator = Adam(lr=1E-3)
     opt_generator = Adam(lr=1E-3)
 
-    gan_loss = ['mae', 'dis_entropy']
+    gan_loss = ['mae', dis_entropy]
     gan_loss_weights = [lmd,1]
 
     gen = generator()
@@ -83,7 +83,7 @@ def train():
     gan.compile(loss = gan_loss, loss_weights = gan_loss_weights,optimizer = opt_gan)
 
     dis.trainable = True
-    dis.compile(loss='dis_entropy', optimizer=opt_discriminator)
+    dis.compile(loss=dis_entropy, optimizer=opt_discriminator)
 
     train_n = train_img.shape[0]
     test_n = test_img.shape[0]
